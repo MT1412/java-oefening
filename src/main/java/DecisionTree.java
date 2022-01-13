@@ -39,7 +39,6 @@ public class DecisionTree {
             String name = nodesConstructorInput.get(i)[0];
             String questionOrOutcome = nodesConstructorInput.get(i)[1];
             allNodes.add(new Node(name, questionOrOutcome));
-            // System.out.println("constructed node: name is " + name + " and question/outcome is " + questionOrOutcome);
         }
     }
 
@@ -61,13 +60,81 @@ public class DecisionTree {
             Node destination = getNodeFromString(edgesConstructorInput.get(i)[1]);
             String answerValue = edgesConstructorInput.get(i)[2];
             allEdges.add(new Edge(origin, destination, answerValue));
-            // System.out.println("constructed edge: origin is " + origin.name + ", destination is " + destination.name + " and value is " + answerValue);
         }
+    }
+
+    static Node findStartNode(){
+        ArrayList<Node> endNodes = new ArrayList<Node>();
+        for(int i=0; i<allEdges.size(); i++){
+            Node endNode = allEdges.get(i).destinationNode;
+            endNodes.add(endNode);
+        }
+        ArrayList<Node> copyAllNodes = new ArrayList<Node>(allNodes);
+        copyAllNodes.removeAll(endNodes);
+        Node startNode = null;
+        if (copyAllNodes.size() == 1){
+            startNode = copyAllNodes.get(0);
+        }
+        return startNode;
+    }
+
+    static void askQuestions(){
+        Node currentNode = findStartNode();
+        boolean hasEdges = true;
+        while(hasEdges){
+            System.out.println(currentNode.questionOrOutcome);
+            displayEdgeOptions(findEdgeOptions(currentNode));
+            System.out.println(displayEdgeOptions(findEdgeOptions(currentNode)));
+            Scanner keyboard = new Scanner(System.in);
+            System.out.println("Typ een van de bovenstaande antwoordopties.");
+            String userSelectEdge = keyboard.nextLine();
+            Edge edgeToFollow = matchEdgeOption(userSelectEdge, findEdgeOptions(currentNode));
+            System.out.println("Je hebt \"" + edgeToFollow.answer + "\" geselecteerd.");
+            currentNode = edgeToFollow.destinationNode;
+            if(findEdgeOptions(currentNode).size() == 0){
+                hasEdges = false;
+                break;
+            } else{
+                hasEdges = true;
+            }
+        }
+        System.out.println("De boom is een " + currentNode.questionOrOutcome + ".");
+    }
+
+    static ArrayList<Edge> findEdgeOptions(Node currentNode){
+        ArrayList<Edge> edgeOptions = new ArrayList<Edge>();
+        for(int i=0; i<allEdges.size(); i++){
+            boolean originNodeIsCurrentNode= (allEdges.get(i).originNode==currentNode)?true:false;
+            if(originNodeIsCurrentNode){
+                edgeOptions.add(allEdges.get(i));
+            }
+        }
+        return edgeOptions;
+    }
+
+    static ArrayList<String> displayEdgeOptions(ArrayList<Edge> edgeOptions){
+        ArrayList<String> displayArray = new ArrayList<String>();
+        for(int i=0; i<edgeOptions.size(); i++){
+            String answer = edgeOptions.get(i).answer;
+            displayArray.add(answer);
+        }
+        return displayArray;
+    }
+
+    static Edge matchEdgeOption(String userInput, ArrayList<Edge> edgeOptions){
+        Edge selectedEdge = null;
+        for(int i=0; i<edgeOptions.size(); i++){
+            if(userInput.equalsIgnoreCase(edgeOptions.get(i).answer)){
+                selectedEdge = edgeOptions.get(i);
+            }
+        }
+        return selectedEdge;
     }
 
 	public static void main(String[] args) throws IOException {
         createNodeOrEdgeInput(readLines());
         constructNodes(nodesConstructorInput);
         constructEdges(edgesConstructorInput);
+        askQuestions();
 	}
 }
