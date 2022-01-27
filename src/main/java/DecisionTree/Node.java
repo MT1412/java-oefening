@@ -1,3 +1,5 @@
+package DecisionTree;
+
 public class Node {
     String name;
     String questionOrOutcome;

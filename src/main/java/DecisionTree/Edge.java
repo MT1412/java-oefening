@@ -1,3 +1,5 @@
+package DecisionTree;
+
 public class Edge {
     Node originNode;
     Node destinationNode;
