@@ -1,12 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DecisionTree {
 
-    static ArrayList<String> readLines() throws FileNotFoundException{
+    static ArrayList<String> readLinesFromFile() throws FileNotFoundException{
         ArrayList<String> fileLinesArray = new ArrayList<String>();
         File file = new File("src/main/resources/intermediate/decision-tree-data.txt");
         Scanner scan = new Scanner(file);
@@ -19,7 +18,7 @@ public class DecisionTree {
 
     static ArrayList<String[]> nodesConstructorInput = new ArrayList<String[]>();
     static ArrayList<String[]> edgesConstructorInput = new ArrayList<String[]>();
-    static void createNodeOrEdgeInput(ArrayList<String> fileLinesArrayList) throws FileNotFoundException {
+    static void createNodeOrEdgeInput(ArrayList<String> fileLinesArrayList){
         for(int i = 0; i < fileLinesArrayList.size(); i++){
             String str = fileLinesArrayList.get(i);
             String[] columnArray = str.split(",");
@@ -130,11 +129,4 @@ public class DecisionTree {
         }
         return selectedEdge;
     }
-
-	public static void main(String[] args) throws IOException {
-        createNodeOrEdgeInput(readLines());
-        constructNodes(nodesConstructorInput);
-        constructEdges(edgesConstructorInput);
-        askQuestions();
-	}
 }
