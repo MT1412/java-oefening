@@ -36,6 +36,18 @@ public class Quote {
             case 3:
             ordinalDay = day +"rd";
             break;
+            case 21:
+            ordinalDay = day +"st";
+            break;
+            case 22:
+            ordinalDay = day +"nd";
+            break;
+            case 23:
+            ordinalDay = day +"rd";
+            break;
+            case 31:
+            ordinalDay = day +"st";
+            break;
             default:
             ordinalDay = day +"th";
         }
