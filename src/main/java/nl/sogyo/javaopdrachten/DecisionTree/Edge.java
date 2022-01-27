@@ -1,4 +1,4 @@
-package DecisionTree;
+package nl.sogyo.javaopdrachten.DecisionTree;
 
 public class Edge {
     Node originNode;

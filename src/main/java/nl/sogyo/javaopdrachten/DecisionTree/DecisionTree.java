@@ -1,4 +1,4 @@
-package DecisionTree;
+package nl.sogyo.javaopdrachten.DecisionTree;
 
 import java.io.File;
 import java.io.FileNotFoundException;
